@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/fa/all.min.css') }}" rel="stylesheet" />
 
         <title>Laravel DaisyUI</title>
     </head>
@@ -27,4 +28,7 @@
             </div>
         </div>
     </body>
+    <script src="{{ asset('js/fa/all.min.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/chartjs/chart.min.js') }}"></script>
 </html>
