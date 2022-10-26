@@ -7,9 +7,9 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# SETUP
-```
-cp .env.example .env && composer install && php artisan key:generate && npm i && npm run watch
-```
+# Installation
+- Open Terminal
+- type <code>git clone https://github.com/arjunapanji21/laradaisy.git && cd laradaisy && cp .env.example .env && composer install && php artisan key:generate && npm i && npm run watch</code>
+- Wait until installation process completed
 
 <img src="/public/img/screenshot01.png">
