@@ -7,4 +7,6 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+<code>cp .env.example .env && composer install && php artisan key:generate && npm i && npm run watch</code>
+
 <img src="/public/img/screenshot01.png">
