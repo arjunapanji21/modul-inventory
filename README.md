@@ -14,4 +14,4 @@
 
 <img src="/public/img/screenshot01.png">
 
-Credit: <a href="https://github.com/arjunapanji21" target="_blank">arjunapanji21</a>
+Created By: <a href="https://github.com/arjunapanji21" target="_blank">arjunapanji21</a>
