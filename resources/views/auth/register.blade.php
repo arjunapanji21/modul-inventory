@@ -30,7 +30,7 @@
                             class="input input-bordered"
                         />
                     </div>
-                    <div class="grid grid-cols-2 gap-2">
+                    <div class="grid lg:grid-cols-2 gap-2">
                         <div class="form-control">
                             <label class="label">
                                 <span class="label-text">Password</span>

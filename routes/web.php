@@ -28,5 +28,13 @@ Route::post('/register', [UserController::class, 'store'])->name('user.store');
 Route::post('/login', [UserController::class, 'auth'])->name('user.auth');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/menu', [PageController::class, 'menu'])->name('menu');
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+    Route::get('/laporan', [PageController::class, 'laporan'])->name('laporan');
+
+    Route::prefix('/barang')->group(function () {
+        Route::get('/', [PageController::class, 'barang_stok'])->name('barang.stok');
+        Route::get('/in', [PageController::class, 'barang_masuk'])->name('barang.masuk');
+        Route::get('/out', [PageController::class, 'barang_keluar'])->name('barang.keluar');
+    });
 });
