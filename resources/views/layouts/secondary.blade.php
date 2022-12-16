@@ -8,12 +8,10 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
         <link href="{{ asset('css/fa/all.min.css') }}" rel="stylesheet" />
 
-        <title>Laradaisy | {{ $title }}</title>
+        <title>Toko Jam Kadar | {{ $title }}</title>
     </head>
     <body>
         @yield('content')
     </body>
     <script src="{{ asset('js/fa/all.min.js') }}"></script>
-    <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/chartjs/chart.min.js') }}"></script>
 </html>

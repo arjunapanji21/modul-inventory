@@ -46,14 +46,14 @@
                             >Forgot Password?</a
                         >
                     </label>
-                    <div class="divider divider-horizontal"></div>
+                    <!-- <div class="divider divider-horizontal"></div>
                     <label class="label mx-auto">
                         <a
                             href="{{ route('user.register') }}"
                             class="label-text-alt link link-hover"
                             >Create Account</a
                         >
-                    </label>
+                    </label> -->
                 </div>
             </div>
         </div>

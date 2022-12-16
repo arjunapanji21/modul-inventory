@@ -3,45 +3,65 @@
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <div class="flex justify-between">
-                <h2 class="card-title text-4xl">124</h2>
+                <h2 class="card-title text-4xl">
+                    {{ number_format($data_barang) }}
+                </h2>
                 <h2 class="card-title text-primary text-4xl">
                     <i class="fa-solid fa-box"></i>
                 </h2>
             </div>
             <p>Data Barang</p>
             <div class="card-actions justify-end">
-                <button class="btn btn-ghost hover:btn-primary">Details</button>
+                <a
+                    href="{{ route('barang.stok') }}"
+                    class="btn btn-ghost hover:btn-primary"
+                    >Details</a
+                >
             </div>
         </div>
     </div>
+    @if(auth()->user()->role == "Admin")
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <div class="flex justify-between">
-                <h2 class="card-title text-4xl">124</h2>
+                <h2 class="card-title text-4xl">
+                    {{ number_format($data_masuk) }}
+                </h2>
                 <h2 class="card-title text-primary text-4xl">
                     <i class="fa-solid fa-arrow-down"></i>
                 </h2>
             </div>
             <p>Barang Masuk</p>
             <div class="card-actions justify-end">
-                <button class="btn btn-ghost hover:btn-primary">Details</button>
+                <a
+                    href="{{ route('barang.masuk') }}"
+                    class="btn btn-ghost hover:btn-primary"
+                    >Details</a
+                >
             </div>
         </div>
     </div>
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <div class="flex justify-between">
-                <h2 class="card-title text-4xl">124</h2>
+                <h2 class="card-title text-4xl">
+                    {{ number_format($data_keluar) }}
+                </h2>
                 <h2 class="card-title text-primary text-4xl">
                     <i class="fa-solid fa-arrow-up"></i>
                 </h2>
             </div>
             <p>Barang Keluar</p>
             <div class="card-actions justify-end">
-                <button class="btn btn-ghost hover:btn-primary">Details</button>
+                <a
+                    href="{{ route('barang.keluar') }}"
+                    class="btn btn-ghost hover:btn-primary"
+                    >Details</a
+                >
             </div>
         </div>
     </div>
+    @endif
 </div>
 
 <div class="py-4">
@@ -66,14 +86,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for($i=1;$i<=5;$i++)
+                    @if($stok_habis->count() > 0) @foreach($stok_habis as $row)
                     <tr>
-                        <th>{{ $i }}</th>
-                        <td>K000{{ $i }}</td>
-                        <td>Jam GSHOCK</td>
-                        <td>0</td>
+                        <th>{{ $loop->iteration }}</th>
+                        <td>{{ $row->kode }}</td>
+                        <td>{{ $row->nama }}</td>
+                        <td>{{ $row->stok }}</td>
                     </tr>
-                    @endfor
+                    @endforeach @else
+                    <tr>
+                        <td colspan="4" class="text-center">Tidak Ada Data</td>
+                    </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

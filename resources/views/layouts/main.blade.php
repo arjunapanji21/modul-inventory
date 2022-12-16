@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
         <link href="{{ asset('css/fa/all.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/chosen/chosen.css') }}" rel="stylesheet" />
 
         <title>Toko Jam Kadar | {{ $title }}</title>
     </head>
@@ -37,6 +38,55 @@
                             <label id="time"></label>
                         </div>
                     </div>
+                    @if(session()->has('success'))
+                    <div class="px-4 mt-4 -mb-2">
+                        <div
+                            id="alert"
+                            class="alert alert-success animate-bounce shadow-lg"
+                        >
+                            <div>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="stroke-current flex-shrink-0 h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <span>{{ session("success") }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    @elseif(session()->has('error'))
+                    <div class="px-4 mt-4 -mb-2">
+                        <div
+                            id="alert"
+                            class="alert alert-error animate-bounce shadow-lg"
+                        >
+                            <div>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="stroke-current flex-shrink-0 h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <span>{{ session("error") }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     <div class="p-4">@yield('content')</div>
                 </div>
 
@@ -95,6 +145,7 @@
                                 <div class="card-body text-xl">Stok Barang</div>
                             </div>
                         </a>
+                        @if(auth()->user()->role == "Admin")
                         <a
                             href="{{ route('barang.masuk') }}"
                             class="card bg-base-100 shadow-xl"
@@ -135,8 +186,9 @@
                                 </div>
                             </div>
                         </a>
+                        @endif
                         <div class="divider">Pengaturan</div>
-                        <a href="" class="card bg-base-100 shadow-xl">
+                        <!-- <a href="" class="card bg-base-100 shadow-xl">
                             <div class="flex justify-center items-center">
                                 <i
                                     class="fa-solid text-primary fa-user text-2xl px-10"
@@ -153,7 +205,7 @@
                                     Ubah Password
                                 </div>
                             </div>
-                        </a>
+                        </a> -->
                         <a
                             href="{{ route('user.logout') }}"
                             class="card bg-base-100 shadow-xl"
@@ -229,6 +281,7 @@
                                     >Stok Barang</a
                                 >
                             </li>
+                            @if(auth()->user()->role == "Admin")
                             <li class="p-1">
                                 <a
                                     href="{{ route('barang.masuk') }}"
@@ -243,6 +296,7 @@
                                     >Barang Keluar</a
                                 >
                             </li>
+                            @endif
                         </div>
                     </div>
                     <!-- <div onclick="menu_laporan()" class="collapse">
@@ -268,11 +322,39 @@
                             </li>
                         </div>
                     </div> -->
+                    @if(auth()->user()->role == "Admin")
                     <li class="p-1">
                         <a href="{{ route('laporan') }}" class="">Laporan</a>
                     </li>
-                    <li class="p-1"><a href="" class="">Data User</a></li>
-                    <li class="p-1"><a href="" class="">Pengaturan</a></li>
+                    <div onclick="menu_barang()" class="collapse">
+                        <input id="collapse-barang" type="checkbox" />
+                        <div
+                            class="collapse-title flex justify-between items-center text-xl pl-5"
+                        >
+                            Master Data
+                            <i
+                                id="icon-data-barang"
+                                class="fa-solid fa-caret-down"
+                            ></i>
+                        </div>
+                        <div class="collapse-content">
+                            <li class="p-1">
+                                <a
+                                    href="{{ route('master.kategori') }}"
+                                    class="@if($title == 'Kategori') active @endif"
+                                    >Kategori</a
+                                >
+                            </li>
+                            <li class="p-1">
+                                <a
+                                    href="{{ route('master.users') }}"
+                                    class="@if($title == 'Users') active @endif"
+                                    >Users</a
+                                >
+                            </li>
+                        </div>
+                    </div>
+                    @endif
                     <li class="p-1">
                         <a href="{{ route('user.logout') }}"
                             ><i class="fa-solid fa-sign-out"></i> Keluar</a
@@ -285,6 +367,12 @@
     <script src="{{ asset('js/fa/all.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/chartjs/chart.min.js') }}"></script>
+    <script src="{{ asset('js/chosen/chosen.jquery.min.js') }}"></script>
+    <script>
+        $(".chosen-single").chosen({
+            width: "100%",
+        });
+    </script>
 
     <script>
         $(document).ready(function () {
@@ -296,6 +384,10 @@
                     );
                 });
             });
+
+            setTimeout(function () {
+                $("#alert").addClass("hidden");
+            }, 3000);
         });
         function menu_barang() {
             if ($("#collapse-barang").is(":checked")) {
