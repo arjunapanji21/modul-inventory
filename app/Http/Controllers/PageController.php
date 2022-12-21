@@ -116,7 +116,7 @@ class PageController extends Controller
             $to = date('Y-m-t');
             $barang = Barang::orderBy('nama')->get();
             foreach($barang as $key=>$row){
-                $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal;
+                $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
                 $barang[$key]->stok_awal = $stok_awal;
 
                 $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
