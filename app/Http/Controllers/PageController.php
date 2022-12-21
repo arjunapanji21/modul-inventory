@@ -73,11 +73,69 @@ class PageController extends Controller
         ]);
     }
 
-    public function laporan()
+    public function laporan(Request $request)
     {
-        return view('laporan', [
-            'title' => 'Laporan',
-        ]);
+        $data = $request->all();
+        if(count($data) > 0){
+            $from = $data['from'];
+            $to = $data['to'];
+            $barang = Barang::orderBy('nama')->get();
+            foreach($barang as $key=>$row){
+                if($from != $to){
+                    $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+                    $barang[$key]->stok_awal = $stok_awal;
+
+                    $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                    $barang[$key]->masuk = $masuk;
+
+                    $keluar = BarangKeluar::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                    $barang[$key]->keluar = $keluar;
+                }else{
+                    $stok_awal = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                    $barang[$key]->stok_awal = $stok_awal;
+
+                    $masuk = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                    $barang[$key]->masuk = $masuk;
+
+                    $keluar = BarangKeluar::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                    $barang[$key]->keluar = $keluar;
+                }
+
+                $stok_akhir = $stok_awal + $masuk - $keluar;
+                $barang[$key]->stok_akhir = $stok_akhir;
+            }
+            $result = $barang;
+            return view('laporan', [
+                'title' => 'Laporan',
+                'from' => $from,
+                'to' => $to,
+                'data' => $result,
+            ]);
+        }else {
+            $from = date('Y-m-01');
+            $to = date('Y-m-t');
+            $barang = Barang::orderBy('nama')->get();
+            foreach($barang as $key=>$row){
+                $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal;
+                $barang[$key]->stok_awal = $stok_awal;
+
+                $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->masuk = $masuk;
+
+                $keluar = BarangKeluar::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->keluar = $keluar;
+
+                $stok_akhir = $stok_awal + $masuk - $keluar;
+                $barang[$key]->stok_akhir = $stok_akhir;
+            }
+            $result = $barang;
+            return view('laporan', [
+                'title' => 'Laporan',
+                'from' => $from,
+                'to' => $to,
+                'data' => $result,
+            ]);
+        }
     }
 
     public function master_kategori()

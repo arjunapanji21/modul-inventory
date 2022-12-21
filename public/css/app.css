@@ -1661,39 +1661,6 @@ html {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
-.container {
-  width: 100%;
-}
-@media (min-width: 640px) {
-
-  .container {
-    max-width: 640px;
-  }
-}
-@media (min-width: 768px) {
-
-  .container {
-    max-width: 768px;
-  }
-}
-@media (min-width: 1024px) {
-
-  .container {
-    max-width: 1024px;
-  }
-}
-@media (min-width: 1280px) {
-
-  .container {
-    max-width: 1280px;
-  }
-}
-@media (min-width: 1536px) {
-
-  .container {
-    max-width: 1536px;
-  }
-}
 .alert {
   display: flex;
   width: 100%;
@@ -3766,14 +3733,6 @@ html {
   height: auto;
   width: 1rem;
 }
-.menu-vertical :where(li.bordered > *) {
-  border-left-width: 4px;
-  border-bottom-width: 0px;
-}
-.menu-horizontal :where(li.bordered > *) {
-  border-left-width: 0px;
-  border-bottom-width: 4px;
-}
 .modal-bottom :where(.modal-box) {
   width: 100%;
   max-width: none;
@@ -3812,17 +3771,13 @@ html {
   margin-left: auto;
   margin-right: auto;
 }
-.my-10 {
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
-}
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+.my-10 {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
 }
 .mt-2 {
   margin-top: 0.5rem;
@@ -3884,9 +3839,6 @@ html {
 .max-w-xs {
   max-width: 20rem;
 }
-.max-w-sm {
-  max-width: 24rem;
-}
 .max-w-md {
   max-width: 28rem;
 }
@@ -3947,9 +3899,6 @@ html {
 .overflow-auto {
   overflow: auto;
 }
-.overflow-x-auto {
-  overflow-x: auto;
-}
 .rounded-full {
   border-radius: 9999px;
 }
@@ -3985,9 +3934,6 @@ html {
 .p-1 {
   padding: 0.25rem;
 }
-.p-10 {
-  padding: 2.5rem;
-}
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -4004,10 +3950,6 @@ html {
   padding-left: 1rem;
   padding-right: 1rem;
 }
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
 .pr-2 {
   padding-right: 0.5rem;
 }
@@ -4023,6 +3965,9 @@ html {
 .text-center {
   text-align: center;
 }
+.text-right {
+  text-align: right;
+}
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
@@ -4035,13 +3980,13 @@ html {
   font-size: 1.5rem;
   line-height: 2rem;
 }
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
-}
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
 }
 .font-bold {
   font-weight: 700;

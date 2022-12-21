@@ -1,43 +1,57 @@
 @extends('layouts.main') @section('content')
 <div class="py-2 block lg:flex lg:items-center lg:justify-between">
-    <div class="block lg:flex gap-2">
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">Dari Tanggal</span>
-            </label>
-            <label class="input-group">
-                <span class="bg-primary"
-                    ><i class="fa-solid text-primary-content fa-calendar"></i
-                ></span>
-                <input
-                    type="date"
-                    class="input input-bordered w-full lg:w-max"
-                />
-            </label>
+    <form action="{{ route('laporan') }}" method="get">
+        @csrf
+        <div class="block lg:flex gap-2">
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Dari Tanggal</span>
+                </label>
+                <label class="input-group">
+                    <span class="bg-primary"
+                        ><i
+                            class="fa-solid text-primary-content fa-calendar"
+                        ></i
+                    ></span>
+                    <input
+                        name="from"
+                        type="date"
+                        class="input input-bordered w-full lg:w-max"
+                        value="{{ $from }}"
+                    />
+                </label>
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Sampai Tanggal</span>
+                </label>
+                <label class="input-group">
+                    <span class="bg-primary"
+                        ><i
+                            class="fa-solid text-primary-content fa-calendar"
+                        ></i
+                    ></span>
+                    <input
+                        name="to"
+                        type="date"
+                        class="input input-bordered w-full lg:w-max"
+                        value="{{ $to }}"
+                    />
+                </label>
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">&nbsp;</span>
+                </label>
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-outline bg-base-100"
+                >
+                    Submit
+                </button>
+            </div>
         </div>
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">Sampai Tanggal</span>
-            </label>
-            <label class="input-group">
-                <span class="bg-primary"
-                    ><i class="fa-solid text-primary-content fa-calendar"></i
-                ></span>
-                <input
-                    type="date"
-                    class="input input-bordered w-full lg:w-max"
-                />
-            </label>
-        </div>
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">&nbsp;</span>
-            </label>
-            <label class="btn btn-primary btn-outline bg-base-100"
-                >Submit</label
-            >
-        </div>
-    </div>
+    </form>
 
     <div class="block lg:flex gap-2">
         <div class="form-control">
@@ -66,7 +80,8 @@
     <div class="text-center mx-auto pt-5 pb-10">
         <div class="text-2xl font-bold uppercase">Laporan Stok Barang</div>
         <div class="text-2xl font-bold normal-case">
-            {{ date("d-m-Y") }} s/d {{ date("d-m-Y") }}
+            {{ date("d F Y", strtotime($from)) }} -
+            {{ date("d F Y", strtotime($to)) }}
         </div>
     </div>
 
@@ -79,26 +94,34 @@
                         <th>#</th>
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
-                        <th>Merk</th>
-                        <th>Stok</th>
-                        <th class="text-center">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </th>
+                        <th>Kategori</th>
+                        <th class="text-right">Stok Awal</th>
+                        <th class="text-right">Masuk</th>
+                        <th class="text-right">Keluar</th>
+                        <th class="text-right">Stok Akhir</th>
                     </tr>
                 </thead>
                 <tbody id="table-search">
-                    @for($i=1;$i<=100;$i++)
+                    @foreach($data as $row)
                     <tr>
-                        <th>{{ $i }}</th>
-                        <td>K000{{ $i }}</td>
-                        <td>Jam GSHOCK</td>
-                        <td>GSHOCK</td>
-                        <td>10</td>
-                        <td class="text-center">
-                            <label class="btn btn-ghost btn-sm">Details</label>
+                        <th>{{ $loop->iteration }}</th>
+                        <td>{{ $row->kode }}</td>
+                        <td>{{ $row->nama }}</td>
+                        <td>{{ $row->kategori->nama }}</td>
+                        <td class="text-right">
+                            {{ number_format($row->stok_awal) }}
+                        </td>
+                        <td class="text-right">
+                            {{ number_format($row->masuk) }}
+                        </td>
+                        <td class="text-right">
+                            {{ number_format($row->keluar) }}
+                        </td>
+                        <td class="text-right">
+                            {{ number_format($row->stok_akhir) }}
                         </td>
                     </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
         </div>
