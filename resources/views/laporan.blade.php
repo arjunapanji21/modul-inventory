@@ -117,7 +117,7 @@
                         <td class="text-right">
                             {{ number_format($row->keluar) }}
                         </td>
-                        <td class="text-right">
+                        <td class="text-right font-bold">
                             {{ number_format($row->stok_akhir) }}
                         </td>
                     </tr>
