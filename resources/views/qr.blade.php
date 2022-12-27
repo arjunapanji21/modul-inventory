@@ -1,4 +1,6 @@
+@if(Auth::check())
 @extends('layouts.main') @section('content')
+@endif
 <div class="">
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
@@ -67,4 +69,6 @@
         </form>
     </div>
 </div>
+@if(Auth::check())
 @endsection
+@endif
