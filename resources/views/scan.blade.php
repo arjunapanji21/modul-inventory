@@ -6,7 +6,7 @@
     #html5-qrcode-button-camera-permission,
     #html5-qrcode-button-camera-start,
     #html5-qrcode-button-camera-stop {
-        margin-top: 4px;
+        margin-top: 10px;
         background-color: #570cad;
         border: none;
         color: white;
