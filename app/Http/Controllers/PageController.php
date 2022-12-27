@@ -10,6 +10,7 @@ use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
@@ -41,10 +42,17 @@ class PageController extends Controller
 
     public function detail_barang_public($id)
     {
-        return view('qr', [
-            'title' => 'Detail Barang',
-            'barang' => Barang::find($id),
-        ]);
+        if(Auth::check()){
+            return view('qr', [
+                'title' => 'Detail Barang',
+                'barang' => Barang::find($id),
+            ]);
+        }else{
+            return view('qr_guest', [
+                'title' => 'Detail Barang',
+                'barang' => Barang::find($id),
+            ]);
+        }
     }
 
     public function barang_stok()
