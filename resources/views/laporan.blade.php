@@ -70,12 +70,26 @@
 
 <div id="print-area" class="bg-base-100 rounded-box shadow-xl p-4 mt-2">
     <div class="flex justify-between">
-        <label class="btn btn-ghost text-primary"
-            ><i class="fa-solid fa-download pr-2"></i> Unduh</label
+        <form action="{{ route('laporan.export') }}" method="get">
+            <input type="text" name="from" value="{{ $from }}" hidden />
+            <input type="text" name="to" value="{{ $to }}" hidden />
+            @csrf
+            <button type="submit" class="btn btn-ghost text-primary">
+                <i class="fa-solid fa-download pr-2"></i> Unduh
+            </button>
+        </form>
+        <form
+            action="{{ route('laporan.print') }}"
+            target="_blank"
+            method="get"
         >
-        <label class="btn btn-ghost text-primary"
-            ><i class="fa-solid fa-print pr-2"></i> Cetak</label
-        >
+            <input type="text" name="from" value="{{ $from }}" hidden />
+            <input type="text" name="to" value="{{ $to }}" hidden />
+            @csrf
+            <button type="submit" class="btn btn-ghost text-primary">
+                <i class="fa-solid fa-print pr-2"></i> Cetak
+            </button>
+        </form>
     </div>
     <div class="text-center mx-auto pt-5 pb-10">
         <div class="text-2xl font-bold uppercase">Laporan Stok Barang</div>
@@ -87,7 +101,7 @@
 
     <div class="card bg-base-100 shadow-xl">
         <div class="overflow-auto max-h-screen">
-            <table class="table table-zebra w-full">
+            <table class="table table-zebra w-full to-print">
                 <!-- head -->
                 <thead>
                     <tr>

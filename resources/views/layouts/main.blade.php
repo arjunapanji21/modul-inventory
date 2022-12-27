@@ -230,7 +230,7 @@
             </div>
             <div class="btm-nav lg:hidden">
                 <a
-                    href="{{ route('dashboard') }}"
+                    href="{{ route('scan') }}"
                     class="bg-primary-focus text-primary-content @if($title == 'Scan QR') active @endif"
                 >
                     <i class="fa-solid fa-qrcode"></i>

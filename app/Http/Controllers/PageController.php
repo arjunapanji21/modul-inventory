@@ -9,6 +9,7 @@ use Milon\Barcode\DNS2D;
 use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PageController extends Controller
 {
@@ -40,7 +41,7 @@ class PageController extends Controller
 
     public function detail_barang_public($id)
     {
-        return view('scan', [
+        return view('qr', [
             'title' => 'Detail Barang',
             'barang' => Barang::find($id),
         ]);
@@ -138,6 +139,80 @@ class PageController extends Controller
         }
     }
 
+    public function laporan_print_pdf(Request $request)
+    {
+        $data = $request->all();
+        $from = $data['from'];
+        $to = $data['to'];
+        $barang = Barang::orderBy('nama')->get();
+        foreach($barang as $key=>$row){
+            if($from != $to){
+                $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $barang[$key]->stok_awal = $stok_awal;
+
+                $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->masuk = $masuk;
+
+                $keluar = BarangKeluar::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->keluar = $keluar;
+            }else{
+                $stok_awal = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $barang[$key]->stok_awal = $stok_awal;
+
+                $masuk = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->masuk = $masuk;
+
+                $keluar = BarangKeluar::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->keluar = $keluar;
+            }
+
+            $stok_akhir = $stok_awal + $masuk - $keluar;
+            $barang[$key]->stok_akhir = $stok_akhir;
+        }
+        $result = $barang;
+        return view('print.pdf', [
+            'title' => 'Laporan',
+            'from' => $from,
+            'to' => $to,
+            'data' => $result,
+        ]);
+    }
+
+    public function laporan_export_pdf(Request $request)
+    {
+        $data = $request->all();
+        $from = $data['from'];
+        $to = $data['to'];
+        $barang = Barang::orderBy('nama')->get();
+        foreach($barang as $key=>$row){
+            if($from != $to){
+                $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $barang[$key]->stok_awal = $stok_awal;
+
+                $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->masuk = $masuk;
+
+                $keluar = BarangKeluar::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->keluar = $keluar;
+            }else{
+                $stok_awal = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $barang[$key]->stok_awal = $stok_awal;
+
+                $masuk = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->masuk = $masuk;
+
+                $keluar = BarangKeluar::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                $barang[$key]->keluar = $keluar;
+            }
+
+            $stok_akhir = $stok_awal + $masuk - $keluar;
+            $barang[$key]->stok_akhir = $stok_akhir;
+        }
+        $result = $barang;
+        $pdf = Pdf::loadView('print.pdf', ['data' => $result, 'from' => $from, 'to' => $to])->setPaper('a4', 'portrait');;
+        return $pdf->download('laporan_stok_barang_' . date('d-m-Y', strtotime($from)) .'_' . date('d-m-Y', strtotime($to)) .'.pdf');
+    }
+
     public function master_kategori()
     {
         return view('master.kategori', [
@@ -151,6 +226,13 @@ class PageController extends Controller
         return view('master.users', [
             'title' => 'Users',
             'users' => User::orderBy('name', 'asc')->get(),
+        ]);
+    }
+
+    public function scan()
+    {
+        return view('scan', [
+            'title' => 'Scan QR',
         ]);
     }
 }

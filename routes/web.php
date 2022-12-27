@@ -33,7 +33,10 @@ Route::get('qr/{id}', [PageController::class, 'detail_barang_public'])->name('ba
 Route::middleware(['auth'])->group(function () {
     Route::get('/menu', [PageController::class, 'menu'])->name('menu');
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+    Route::get('/scan', [PageController::class, 'scan'])->name('scan');
     Route::get('/laporan', [PageController::class, 'laporan'])->name('laporan');
+    Route::get('/laporan/print', [PageController::class, 'laporan_print_pdf'])->name('laporan.print');
+    Route::get('/laporan/export', [PageController::class, 'laporan_export_pdf'])->name('laporan.export');
 
     Route::prefix('/master')->group(function () {
         Route::get('/kategori', [PageController::class, 'master_kategori'])->name('master.kategori');
