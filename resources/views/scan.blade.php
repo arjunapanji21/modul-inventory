@@ -1,4 +1,4 @@
-@extends('layouts.main') @section('content')
+@if(Auth::check()) @extends('layouts.main') @section('content') @endif
 <style>
     img {
         margin: auto;
@@ -44,4 +44,4 @@
     });
     html5QrcodeScanner.render(onScanSuccess, onScanError);
 </script>
-@endsection
+@if(Auth::check()) @endsection @endif
