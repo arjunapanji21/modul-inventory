@@ -1,5 +1,5 @@
-@extends('layouts.secondary') @section('content')
-<div class="max-w-md mx-auto hero min-h-screen">
+@extends('layouts.main') @section('content')
+<div class="">
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <img
