@@ -1,4 +1,23 @@
 @extends('layouts.main') @section('content')
+<style>
+    img {
+        margin: auto;
+    }
+    #html5-qrcode-button-camera-permission,
+    #html5-qrcode-button-camera-start,
+    #html5-qrcode-button-camera-stop {
+        background-color: #570cad;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    #html5-qrcode-anchor-scan-type-change {
+        visibility: hidden;
+    }
+</style>
 <div class="w-full h-full" id="reader"></div>
 
 <script src="{{ asset('js/html5-qrcode.min.js') }}"></script>
