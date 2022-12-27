@@ -5,7 +5,8 @@
 <script>
     function onScanSuccess(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
-        alert(`Scan result: ${decodedText}`, decodedResult);
+        // alert(`Scan result: ${decodedText}`, decodedResult);
+        window.location.replace(decodedResult);
     }
 
     var html5QrcodeScanner = new Html5QrcodeScanner("reader", {
