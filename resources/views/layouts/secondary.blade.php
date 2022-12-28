@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html
-    lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light"
->
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,5 +11,10 @@
     <body>
         @yield('content')
     </body>
+    <footer class="footer footer-center p-4 text-base-content">
+        <div>
+            <p>Copyright © 2022 - All right reserved by Toko Jam Kadar Jambi</p>
+        </div>
+    </footer>
     <script src="{{ asset('js/fa/all.min.js') }}"></script>
 </html>
