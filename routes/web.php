@@ -52,7 +52,9 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('/barang')->group(function () {
         Route::get('/', [PageController::class, 'barang_stok'])->name('barang.stok');
         Route::get('/{id}/detail', [PageController::class, 'detail_barang'])->name('barang.detail');
+        Route::get('/{id}/edit', [PageController::class, 'edit_barang'])->name('barang.edit');
         Route::post('/tambah', [MainController::class, 'tambah_barang'])->name('barang.tambah');
+        Route::put('/update', [MainController::class, 'update_barang'])->name('barang.update');
         Route::delete('/hapus', [MainController::class, 'hapus_barang'])->name('barang.hapus');
         Route::get('/masuk', [PageController::class, 'barang_masuk'])->name('barang.masuk');
         Route::post('/masuk/create', [MainController::class, 'barang_masuk'])->name('barang.masuk.create');

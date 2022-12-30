@@ -79,10 +79,56 @@ class MainController extends Controller
             'kode' => 'required|unique:barangs',
             'nama' => 'required|unique:barangs',
             'kategori_id' => 'required',
+            'gambar' => 'required',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $data = $request->all();
-        Barang::create($data);
-        return redirect(route('barang.stok'))->with('success', 'Berhasil Menambah Data Barang Baru!');
+        try {
+            if($request->hasFile('gambar')){
+                $file = $request->file('gambar');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('img/produk/'), $filename);
+                $data['gambar']= "img/produk/".$filename;
+            }else{
+                $data['gambar']= 'img/produk/sample.jpeg';
+            }
+
+            Barang::create($data);
+            return redirect(route('barang.stok'))->with('success', 'Berhasil Menambah Data Barang Baru!');
+        } catch (\Throwable $th) {
+            // dd($th);
+            // $message = "";
+            // foreach($th->errorInfo as $err){
+            //     $message = $err;
+            // }
+            return back()->with('error', 'Gagal Menambah Data Barang Baru!');
+        }
+    }
+
+    public function update_barang(Request $request)
+    {
+        $data = $request->all();
+        $barang = Barang::find($data['id']);
+        try {
+            if($request->hasFile('gambar')){
+                $file = $request->file('gambar');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('img/produk/'), $filename);
+                $data['gambar']= "img/produk/".$filename;
+            }else{
+                $data['gambar']= $barang->gambar;
+            }
+
+            $barang->update($data);
+            return redirect(route('barang.stok'))->with('success', 'Berhasil Mengubah Data Barang Baru!');
+        } catch (\Throwable $th) {
+            // dd($th);
+            // $message = "";
+            // foreach($th->errorInfo as $err){
+            //     $message = $err;
+            // }
+            return back()->with('error', 'Gagal Mengubah Data Barang Baru!');
+        }
     }
 
     public function hapus_barang(Request $request)

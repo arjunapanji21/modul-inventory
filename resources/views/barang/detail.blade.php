@@ -44,6 +44,11 @@
                     </tbody>
                 </table>
             </div>
+            <a
+                href="{{ route('barang.edit', $barang->id) }}"
+                class="btn btn-outline"
+                >Edit</a
+            >
             <div class="card-actions justify-between">
                 <div class="flex gap-2">
                     <a href="{{ route('barang.stok') }}" class="btn btn-primary"

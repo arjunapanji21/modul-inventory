@@ -15,7 +15,11 @@
 <input type="checkbox" id="tambah-barang" class="modal-toggle" />
 <div class="modal">
     <div class="modal-box">
-        <form action="{{ route('barang.tambah') }}" method="post">
+        <form
+            action="{{ route('barang.tambah') }}"
+            method="post"
+            enctype="multipart/form-data"
+        >
             @csrf
             <h3 class="font-bold text-lg">Tambah Data Barang</h3>
             <div class="grid grid-cols-3 gap-2">
@@ -76,6 +80,7 @@
                     <span class="label-text">Upload Gambar</span>
                 </label>
                 <input
+                    name="gambar"
                     type="file"
                     class="file-input file-input-bordered w-full"
                 />

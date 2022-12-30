@@ -40,6 +40,15 @@ class PageController extends Controller
         ]);
     }
 
+    public function edit_barang($id)
+    {
+        return view('barang.edit', [
+            'title' => 'Edit Data Barang',
+            'barang' => Barang::find($id),
+            'kategori' => Kategori::orderBy('nama', 'asc')->get(),
+        ]);
+    }
+
     public function detail_barang_public($id)
     {
         if(Auth::check()){
