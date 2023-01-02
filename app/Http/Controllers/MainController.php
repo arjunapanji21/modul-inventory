@@ -149,6 +149,7 @@ class MainController extends Controller
         $data = $request->validate([
             'barang_id' => 'required',
             'jumlah' => 'required',
+            'tgl_masuk' => 'required',
         ]);
         $barang = Barang::find($data['barang_id']);
         $data['stok_awal'] = $barang->stok;
@@ -188,6 +189,7 @@ class MainController extends Controller
         $data = $request->validate([
             'barang_id' => 'required',
             'jumlah' => 'required',
+            'tgl_keluar' => 'required',
         ]);
         $barang = Barang::find($data['barang_id']);
         $data['stok_awal'] = $barang->stok;

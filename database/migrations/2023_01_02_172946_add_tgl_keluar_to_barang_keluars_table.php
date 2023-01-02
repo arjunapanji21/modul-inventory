@@ -14,7 +14,7 @@ class AddTglKeluarToBarangKeluarsTable extends Migration
     public function up()
     {
         Schema::table('barang_keluars', function (Blueprint $table) {
-            $table->string('tgl_keluar')->default(date('Y-m-d'));
+            $table->string('tgl_keluar')->nullable();
         });
     }
 

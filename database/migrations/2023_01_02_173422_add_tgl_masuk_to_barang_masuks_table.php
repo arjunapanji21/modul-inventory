@@ -14,7 +14,7 @@ class AddTglMasukToBarangMasuksTable extends Migration
     public function up()
     {
         Schema::table('barang_masuks', function (Blueprint $table) {
-            $table->string('tgl_masuk')->default(date('Y-m-d'));
+            $table->string('tgl_masuk')->nullable();
         });
     }
 

@@ -98,7 +98,7 @@
                 @if($barang_masuk->count() > 0) @foreach ($barang_masuk as $row)
                 <tr>
                     <th>BM-{{ $row->id }}</th>
-                    <td>{{ $row->created_at }}</td>
+                    <td>{{ date('d F Y', strtotime($row->tgl_masuk)) }}</td>
                     <td>{{ $row->barang->kode }}</td>
                     <td>{{ $row->barang->nama }}</td>
                     <td class="text-center">{{ $row->stok_awal }}</td>
