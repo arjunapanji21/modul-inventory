@@ -18,6 +18,22 @@
             <h3 class="font-bold text-lg">Form Input Barang Keluar</h3>
             <div class="form-control w-full">
                 <label class="label">
+                    <span class="label-text">Tgl. Keluar</span>
+                </label>
+                <input
+                    name="tgl_keluar"
+                    type="date"
+                    class="input input-bordered w-full"
+                    value="{{ date('Y-m-d') }}"
+                />
+                <label class="label">
+                    <span class="label-text-alt text-error"
+                        >Field tidak boleh kosong</span
+                    >
+                </label>
+            </div>
+            <div class="form-control w-full">
+                <label class="label">
                     <span class="label-text">Barang</span>
                 </label>
                 <select

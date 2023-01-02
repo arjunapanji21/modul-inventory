@@ -191,12 +191,16 @@ class MainController extends Controller
         ]);
         $barang = Barang::find($data['barang_id']);
         $data['stok_awal'] = $barang->stok;
-        $data['stok_akhir'] = $data['stok_awal'] - $data['jumlah'];
-        $data['user'] = auth()->user()->name;
-        BarangKeluar::create($data);
-        $barang->update([
-            'stok' => $data['stok_akhir'],
-        ]);
-        return redirect(route('barang.keluar'))->with('success', 'Berhasil Menyimpan Data Barang Keluar!');
+        if($data['jumlah'] > $data['stok_awal']){
+            return back()->with('error', 'Jumlah barang keluar tidak boleh lebih besar dari stok!');
+        }else{
+            $data['stok_akhir'] = $data['stok_awal'] - $data['jumlah'];
+            $data['user'] = auth()->user()->name;
+            BarangKeluar::create($data);
+            $barang->update([
+                'stok' => $data['stok_akhir'],
+            ]);
+            return redirect(route('barang.keluar'))->with('success', 'Berhasil Menyimpan Data Barang Keluar!');
+        }
     }
 }
