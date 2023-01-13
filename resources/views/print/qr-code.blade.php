@@ -42,4 +42,12 @@
             </div>
         </div>
     </body>
+    <script>
+        window.onload = function () {
+            window.print();
+            window.onafterprint(() => {
+                window.close();
+            });
+        };
+    </script>
 </html>

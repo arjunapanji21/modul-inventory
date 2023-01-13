@@ -451,4 +451,5 @@
             }
         }
     </script>
+    @yield('script')
 </html>

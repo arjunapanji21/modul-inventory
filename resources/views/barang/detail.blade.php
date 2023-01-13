@@ -77,6 +77,9 @@
                     class="btn btn-primary btn-outline"
                     >Print QR-Code</a
                 >
+                <!-- <div id="print-qr" class="btn btn-primary btn-outline">
+                    Print QR-Code
+                </div> -->
             </div>
         </div>
     </div>
@@ -101,4 +104,12 @@
         </form>
     </div>
 </div>
+@endsection @section('script')
+<!-- <script>
+    $("#print-qr").click(async function () {
+        const print = await window.open(
+            "{{ route('barang.detail.print.qr', $barang->id) }}"
+        );
+    });
+</script> -->
 @endsection
