@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('index');
+// Route::get('/test', function () {
+//     return view('print.qr-code');
 // });
 
 Route::get('/register', [UserController::class, 'register'])->name('user.register');
@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('/barang')->group(function () {
         Route::get('/', [PageController::class, 'barang_stok'])->name('barang.stok');
         Route::get('/{id}/detail', [PageController::class, 'detail_barang'])->name('barang.detail');
+        Route::get('/{id}/print-qr', [PageController::class, 'detail_barang_print_qr'])->name('barang.detail.print.qr');
         Route::get('/{id}/edit', [PageController::class, 'edit_barang'])->name('barang.edit');
         Route::post('/tambah', [MainController::class, 'tambah_barang'])->name('barang.tambah');
         Route::put('/update', [MainController::class, 'update_barang'])->name('barang.update');

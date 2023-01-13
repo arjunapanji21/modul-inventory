@@ -40,6 +40,14 @@ class PageController extends Controller
         ]);
     }
 
+    public function detail_barang_print_qr($id)
+    {
+        return view('print.qr-code', [
+            'title' => 'Print QR Code ',
+            'barang' => Barang::find($id),
+        ]);
+    }
+
     public function edit_barang($id)
     {
         return view('barang.edit', [

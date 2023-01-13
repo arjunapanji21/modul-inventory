@@ -38,7 +38,7 @@
                         </button>
                     </div>
                 </form>
-                <div class="flex">
+                <!-- <div class="flex">
                     <label class="label mx-auto">
                         <a
                             href="{{ route('user.forgot') }}"
@@ -46,15 +46,15 @@
                             >Forgot Password?</a
                         >
                     </label>
-                    <!-- <div class="divider divider-horizontal"></div>
+                    <div class="divider divider-horizontal"></div>
                     <label class="label mx-auto">
                         <a
                             href="{{ route('user.register') }}"
                             class="label-text-alt link link-hover"
                             >Create Account</a
                         >
-                    </label> -->
-                </div>
+                    </label>
+                </div> -->
             </div>
         </div>
     </div>

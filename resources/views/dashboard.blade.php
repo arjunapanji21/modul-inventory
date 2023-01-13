@@ -1,5 +1,6 @@
 @extends('layouts.main') @section('content')
 <div class="grid lg:grid-cols-3 gap-4 py-4">
+    @if(auth()->user()->role != "Owner")
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <div class="flex justify-between">
@@ -20,7 +21,7 @@
             </div>
         </div>
     </div>
-    @if(auth()->user()->role == "Admin")
+    @endif @if(auth()->user()->role == "Admin")
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <div class="flex justify-between">
@@ -41,6 +42,7 @@
             </div>
         </div>
     </div>
+    @endif @if(auth()->user()->role != "Owner")
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <div class="flex justify-between">

@@ -41,8 +41,9 @@
                     class="select select-bordered w-full"
                 >
                     <option disabled selected>Pilih Role</option>
-                    <option value="Staff">Staff</option>
-                    <option value="Admin">Admin</option>
+                    <option value="Staff">Karyawan Toko</option>
+                    <option value="Admin">Admin Gudang</option>
+                    <option value="Owner">Pemilik</option>
                 </select>
                 <label class="label">
                     <span class="label-text-alt text-error"
@@ -130,7 +131,10 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $row->name }}</td>
-                    <td>{{ $row->role }}</td>
+                    <td>
+                        @if($row->role == "Owner") Pemilik @elseif($row->role ==
+                        "Admin") Admin Gudang @else Karyawan Toko @endif
+                    </td>
                     <td>{{ $row->email }}</td>
                     <td class="text-center">
                         <label
@@ -192,13 +196,29 @@
                                         <option disabled>Pilih Role</option>
                                         @if($row->role == "Staff")
                                         <option selected value="Staff">
-                                            Staff
+                                            Karyawan Toko
                                         </option>
-                                        <option value="Admin">Admin</option>
-                                        @else
-                                        <option value="Staff">Staff</option>
+                                        <option value="Admin">
+                                            Admin Gudang
+                                        </option>
+                                        <option value="Owner">Pemilik</option>
+                                        @elseif($row->role == "Admin")
+                                        <option value="Staff">
+                                            Karyawan Toko
+                                        </option>
                                         <option selected value="Admin">
-                                            Admin
+                                            Admin Gudang
+                                        </option>
+                                        <option value="Owner">Pemilik</option>
+                                        @else
+                                        <option value="Staff">
+                                            Karyawan Toko
+                                        </option>
+                                        <option value="Admin">
+                                            Admin Gudang
+                                        </option>
+                                        <option selected value="Owner">
+                                            Pemilik
                                         </option>
                                         @endif
                                     </select>

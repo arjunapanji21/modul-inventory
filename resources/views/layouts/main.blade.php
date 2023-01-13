@@ -133,6 +133,7 @@
                                 <div class="card-body text-xl">Dashboard</div>
                             </div>
                         </a>
+                        @if(auth()->user()->role != "Owner")
                         <div class="divider">Data Barang</div>
                         <a
                             href="{{ route('barang.stok') }}"
@@ -145,6 +146,8 @@
                                 <div class="card-body text-xl">Stok Barang</div>
                             </div>
                         </a>
+                        @endif @if(auth()->user()->role == "Admin" or
+                        auth()->user()->role == "Staff")
                         @if(auth()->user()->role == "Admin")
                         <a
                             href="{{ route('barang.masuk') }}"
@@ -159,6 +162,7 @@
                                 </div>
                             </div>
                         </a>
+                        @endif
                         <a
                             href="{{ route('barang.keluar') }}"
                             class="card bg-base-100 shadow-xl"
@@ -172,6 +176,7 @@
                                 </div>
                             </div>
                         </a>
+                        @endif @if(auth()->user()->role == "Owner")
                         <div class="divider">Laporan</div>
                         <a
                             href="{{ route('laporan') }}"
@@ -188,7 +193,11 @@
                         </a>
                         @endif
                         <div class="divider">Pengaturan</div>
-                        <!-- <a href="" class="card bg-base-100 shadow-xl">
+                        @if(auth()->user()->role == "Owner")
+                        <a
+                            href="{{ route('master.users') }}"
+                            class="card bg-base-100 shadow-xl"
+                        >
                             <div class="flex justify-center items-center">
                                 <i
                                     class="fa-solid text-primary fa-user text-2xl px-10"
@@ -196,7 +205,20 @@
                                 <div class="card-body text-xl">Data User</div>
                             </div>
                         </a>
-                        <a href="" class="card bg-base-100 shadow-xl">
+                        @elseif(auth()->user()->role == "Admin")
+                        <a
+                            href="{{ route('master.kategori') }}"
+                            class="card bg-base-100 shadow-xl"
+                        >
+                            <div class="flex justify-center items-center">
+                                <i
+                                    class="fa-solid text-primary fa-tags text-2xl px-10"
+                                ></i>
+                                <div class="card-body text-xl">Kategori</div>
+                            </div>
+                        </a>
+                        @endif
+                        <!-- <a href="" class="card bg-base-100 shadow-xl">
                             <div class="flex justify-center items-center">
                                 <i
                                     class="fa-solid text-primary fa-lock text-2xl px-10"
@@ -262,6 +284,7 @@
                             >Dashboard</a
                         >
                     </li>
+                    @if(auth()->user()->role != "Owner")
                     <div onclick="menu_barang()" class="collapse">
                         <input id="collapse-barang" type="checkbox" />
                         <div
@@ -289,6 +312,7 @@
                                     >Barang Masuk</a
                                 >
                             </li>
+                            @endif
                             <li class="p-1">
                                 <a
                                     href="{{ route('barang.keluar') }}"
@@ -296,9 +320,9 @@
                                     >Barang Keluar</a
                                 >
                             </li>
-                            @endif
                         </div>
                     </div>
+                    @endif
                     <!-- <div onclick="menu_laporan()" class="collapse">
                         <input id="collapse-laporan" type="checkbox" />
                         <div
@@ -322,10 +346,12 @@
                             </li>
                         </div>
                     </div> -->
-                    @if(auth()->user()->role == "Admin")
+                    @if(auth()->user()->role == "Admin" or auth()->user()->role
+                    == "Owner") @if(auth()->user()->role == "Owner")
                     <li class="p-1">
                         <a href="{{ route('laporan') }}" class="">Laporan</a>
                     </li>
+                    @endif
                     <div onclick="menu_barang()" class="collapse">
                         <input id="collapse-barang" type="checkbox" />
                         <div
@@ -338,6 +364,7 @@
                             ></i>
                         </div>
                         <div class="collapse-content">
+                            @if(auth()->user()->role == "Admin")
                             <li class="p-1">
                                 <a
                                     href="{{ route('master.kategori') }}"
@@ -345,6 +372,7 @@
                                     >Kategori</a
                                 >
                             </li>
+                            @elseif(auth()->user()->role == "Owner")
                             <li class="p-1">
                                 <a
                                     href="{{ route('master.users') }}"
@@ -352,6 +380,7 @@
                                     >Users</a
                                 >
                             </li>
+                            @endif
                         </div>
                     </div>
                     @endif

@@ -44,11 +44,13 @@
                     </tbody>
                 </table>
             </div>
+            @if(auth()->user()->role == "Admin")
             <a
                 href="{{ route('barang.edit', $barang->id) }}"
                 class="btn btn-outline"
                 >Edit</a
             >
+            @endif
             <div class="card-actions justify-between">
                 <div class="flex gap-2">
                     <a href="{{ route('barang.stok') }}" class="btn btn-primary"
@@ -62,12 +64,18 @@
                     ></label>
                     @endif
                 </div>
-                <a
+                <!-- <a
                     download="{{ $barang->kode . ' - ' . $barang->nama . ' QR-Code' }}"
                     href="data:image/png;base64,{{ DNS2D::getBarcodePNG(route('barang.detail.public', $barang->id), 'QRCODE',15,15) }}"
                     target="_blank"
                     class="btn btn-primary btn-outline"
                     >Unduh QR-Code</a
+                > -->
+                <a
+                    href="{{ route('barang.detail.print.qr', $barang->id) }}"
+                    target="_blank"
+                    class="btn btn-primary btn-outline"
+                    >Print QR-Code</a
                 >
             </div>
         </div>
