@@ -88,17 +88,17 @@
                     <th>Kode Barang</th>
                     <th>Nama Barang</th>
                     <th class="text-center">Stok Awal</th>
-                    <th class="text-center">Jumlah Masuk</th>
+                    <th class="text-center">Jumlah Keluar</th>
                     <th class="text-center">Stok Akhir</th>
                     <th class="text-center">User</th>
                     <th class="text-center">Hapus</th>
                 </tr>
             </thead>
             <tbody id="table-search">
-                @if($barang_masuk->count() > 0) @foreach ($barang_masuk as $row)
+                @if($barang_keluar->count() > 0) @foreach ($barang_keluar as $row)
                 <tr>
                     <th>BK-{{ $row->id }}</th>
-                    <td>{{ $row->created_at }}</td>
+                    <td>{{ date('d F Y', strtotime($row->tgl_keluar)) }}</td>
                     <td>{{ $row->barang->kode }}</td>
                     <td>{{ $row->barang->nama }}</td>
                     <td class="text-center">{{ $row->stok_awal }}</td>

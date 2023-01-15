@@ -94,7 +94,7 @@ class PageController extends Controller
     {
         return view('barang.keluar', [
             'title' => 'Data Barang Keluar',
-            'barang_masuk' => BarangKeluar::orderBy('created_at', 'desc')->get(),
+            'barang_keluar' => BarangKeluar::orderBy('created_at', 'desc')->get(),
             'data_barang' => Barang::orderBy('nama', 'asc')->get(),
         ]);
     }
