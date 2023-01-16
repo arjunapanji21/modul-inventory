@@ -146,11 +146,16 @@ class MainController extends Controller
 
     public function barang_masuk(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'barang_id' => 'required',
             'jumlah' => 'required',
             'tgl_masuk' => 'required',
         ]);
+        $data = $request->all();
+        if($request->hasFile('foto_faktur')){
+            $data['foto_faktur'] = base64_encode(file_get_contents($request->file('foto_faktur')->path()));
+        }
+        // dd($data);
         $barang = Barang::find($data['barang_id']);
         $data['stok_awal'] = $barang->stok;
         $data['stok_akhir'] = $data['stok_awal'] + $data['jumlah'];
