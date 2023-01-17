@@ -3642,13 +3642,6 @@ html {
   font-size: 1rem;
   line-height: 1.5rem;
 }
-.btn-xs {
-  height: 1.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  min-height: 1.5rem;
-  font-size: 0.75rem;
-}
 .btn-sm {
   height: 2rem;
   padding-left: 0.75rem;
@@ -3897,14 +3890,14 @@ html {
 .w-32 {
   width: 8rem;
 }
+.w-1\/2 {
+  width: 50%;
+}
 .w-6 {
   width: 1.5rem;
 }
 .w-60 {
   width: 15rem;
-}
-.w-1\/2 {
-  width: 50%;
 }
 .max-w-xs {
   max-width: 20rem;

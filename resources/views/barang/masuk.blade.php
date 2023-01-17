@@ -25,20 +25,6 @@
                     <span class="label-text">Tgl. Masuk</span>
                 </label>
                 <div class="input-group">
-                    <span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            class="bi bi-calendar-event-fill"
-                            viewBox="0 0 16 16"
-                        >
-                            <path
-                                d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"
-                            />
-                        </svg>
-                    </span>
                     <input
                         name="tgl_masuk"
                         type="date"
@@ -102,7 +88,7 @@
                     class="input input-bordered w-full"
                 />
             </div>
-            <div class="form-control w-full">
+            <!-- <div class="form-control w-full">
                 <label class="label">
                     <span class="label-text">Upload Foto Faktur</span>
                 </label>
@@ -111,7 +97,7 @@
                     type="file"
                     class="file-input file-input-bordered w-full"
                 />
-            </div>
+            </div> -->
 
             <div class="modal-action">
                 <label for="tambah-barang" class="btn btn-ghost">Batal</label>
@@ -142,10 +128,10 @@
                 @if($barang_masuk->count() > 0) @foreach ($barang_masuk as $row)
                 <tr>
                     <th>BM-{{ $row->id }}</th>
-                    <th>
+                    <td>
                         <div class="flex items-center">
                             {{ $row->no_faktur }}
-                            @if($row->foto_faktur != '')
+                            <!-- @if($row->foto_faktur != '')
                             <span class="btn btn-sm btn-circle btn-ghost"
                                 ><a
                                     href="data:image/png;base64,{{ $row->foto_faktur }}"
@@ -167,9 +153,9 @@
                                         />
                                     </svg> </a
                             ></span>
-                            @endif
+                            @endif -->
                         </div>
-                    </th>
+                    </td>
                     <td>{{ date('d/m/Y', strtotime($row->tgl_masuk)) }}</td>
                     <td>{{ $row->barang->kode }}</td>
                     <td>{{ $row->barang->nama }}</td>

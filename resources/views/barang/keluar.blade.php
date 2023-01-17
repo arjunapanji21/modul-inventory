@@ -16,21 +16,37 @@
         <form action="{{ route('barang.keluar.create') }}" method="post">
             @csrf
             <h3 class="font-bold text-lg">Form Input Barang Keluar</h3>
-            <div class="form-control w-full">
+            <div class="form-control w-1/2">
                 <label class="label">
                     <span class="label-text">Tgl. Keluar</span>
                 </label>
+                <div class="input-group">
+                <span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-calendar-event-fill"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"
+                            />
+                        </svg>
+                    </span>
                 <input
                     name="tgl_keluar"
                     type="date"
                     class="input input-bordered w-full"
                     value="{{ date('Y-m-d') }}"
                 />
-                <label class="label">
-                    <span class="label-text-alt text-error"
-                        >Field tidak boleh kosong</span
-                    >
-                </label>
+            </div>
+            <label class="label">
+                <span class="label-text-alt text-error"
+                    >Field tidak boleh kosong</span
+                >
+            </label>
             </div>
             <div class="form-control w-full">
                 <label class="label">
