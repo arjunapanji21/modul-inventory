@@ -103,9 +103,9 @@
                     <th>Tgl. Keluar</th>
                     <th>Kode Barang</th>
                     <th>Nama Barang</th>
-                    <th class="text-center">Stok Awal</th>
+                    {{-- <th class="text-center">Stok Awal</th> --}}
                     <th class="text-center">Jumlah Keluar</th>
-                    <th class="text-center">Stok Akhir</th>
+                    {{-- <th class="text-center">Stok Akhir</th> --}}
                     <th class="text-center">User</th>
                     <th class="text-center">Hapus</th>
                 </tr>
@@ -117,9 +117,9 @@
                     <td>{{ date('d/m/Y', strtotime($row->tgl_keluar)) }}</td>
                     <td>{{ $row->barang->kode }}</td>
                     <td>{{ $row->barang->nama }}</td>
-                    <td class="text-center">{{ $row->stok_awal }}</td>
+                    {{-- <td class="text-center">{{ $row->stok_awal }}</td> --}}
                     <td class="text-center">{{ $row->jumlah }}</td>
-                    <td class="text-center">{{ $row->stok_akhir }}</td>
+                    {{-- <td class="text-center">{{ $row->stok_akhir }}</td> --}}
                     <td class="text-center">{{ $row->user }}</td>
                     <td class="text-center">
                         <label

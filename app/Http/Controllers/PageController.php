@@ -34,50 +34,62 @@ class PageController extends Controller
 
     public function detail_barang($id)
     {
+        $barang = Barang::find($id);
+        $barang->stok = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', date('Y-m-d')])->where('barang_id', $id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', date('Y-m-d')])->where('barang_id', $id)->sum('jumlah');
         return view('barang.detail', [
             'title' => 'Detail Barang',
-            'barang' => Barang::find($id),
+            'barang' => $barang,
         ]);
     }
 
     public function detail_barang_print_qr($id)
     {
+        $barang = Barang::find($id);
+        $barang->stok = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', date('Y-m-d')])->where('barang_id', $id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', date('Y-m-d')])->where('barang_id', $id)->sum('jumlah');
         return view('print.qr-code', [
             'title' => 'Print QR Code ',
-            'barang' => Barang::find($id),
+            'barang' => $barang,
         ]);
     }
 
     public function edit_barang($id)
     {
+        $barang = Barang::find($id);
+        $barang->stok = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', date('Y-m-d')])->where('barang_id', $id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', date('Y-m-d')])->where('barang_id', $id)->sum('jumlah');
         return view('barang.edit', [
             'title' => 'Edit Data Barang',
-            'barang' => Barang::find($id),
+            'barang' => $barang,
             'kategori' => Kategori::orderBy('nama', 'asc')->get(),
         ]);
     }
 
     public function detail_barang_public($id)
     {
-        if(Auth::check()){
+        $barang = Barang::find($id);
+        $barang->stok = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', date('Y-m-d')])->where('barang_id', $id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', date('Y-m-d')])->where('barang_id', $id)->sum('jumlah');
+        if (Auth::check()) {
             return view('qr', [
                 'title' => 'Detail Barang',
-                'barang' => Barang::find($id),
+                'barang' => $barang,
             ]);
-        }else{
+        } else {
             return view('qr_guest', [
                 'title' => 'Detail Barang',
-                'barang' => Barang::find($id),
+                'barang' => $barang,
             ]);
         }
     }
 
     public function barang_stok()
     {
+        $barang = Barang::orderBy('nama', 'asc')->get();
+        foreach ($barang as $key => $row) {
+            $barang[$key]->stok = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', date('Y-m-d')])->where('barang_id', $row->id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', date('Y-m-d')])->where('barang_id', $row->id)->sum('jumlah');
+        }
         return view('barang.stok', [
             'title' => 'Data Stok Barang',
             'kategori' => Kategori::orderBy('nama', 'asc')->get(),
-            'barang' => Barang::orderBy('nama', 'asc')->get(),
+            'barang' => $barang,
         ]);
     }
 
@@ -85,7 +97,7 @@ class PageController extends Controller
     {
         return view('barang.masuk', [
             'title' => 'Data Barang Masuk',
-            'barang_masuk' => BarangMasuk::orderBy('created_at', 'desc')->get(),
+            'barang_masuk' => BarangMasuk::orderBy('tgl_masuk', 'desc')->get(),
             'data_barang' => Barang::orderBy('nama', 'asc')->get(),
         ]);
     }
@@ -94,7 +106,7 @@ class PageController extends Controller
     {
         return view('barang.keluar', [
             'title' => 'Data Barang Keluar',
-            'barang_keluar' => BarangKeluar::orderBy('created_at', 'desc')->get(),
+            'barang_keluar' => BarangKeluar::orderBy('tgl_keluar', 'desc')->get(),
             'data_barang' => Barang::orderBy('nama', 'asc')->get(),
         ]);
     }
@@ -102,28 +114,33 @@ class PageController extends Controller
     public function laporan(Request $request)
     {
         $data = $request->all();
-        if(count($data) > 0){
+        if (count($data) > 0) {
             $from = $data['from'];
             $to = $data['to'];
+            // dd(date('m', strtotime($to)) - 1);
             $barang = Barang::orderBy('nama')->get();
-            foreach($barang as $key=>$row){
-                if($from != $to){
-                    $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+            foreach ($barang as $key => $row) {
+                if ($from != $to) {
+                    // $stok_awal = BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+                    // $stok_awal = BarangMasuk::where('barang_id', $row->id)->latest()->first() != null ? BarangMasuk::where('barang_id', $row->id)->latest()->first()->stok_awal : 0;
+
+                    $stok_awal = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah');
+
                     $barang[$key]->stok_awal = $stok_awal;
 
-                    $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                    $masuk = BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                     $barang[$key]->masuk = $masuk;
 
-                    $keluar = BarangKeluar::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                    $keluar = BarangKeluar::whereBetween('tgl_keluar', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                     $barang[$key]->keluar = $keluar;
-                }else{
-                    $stok_awal = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                } else {
+                    $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
                     $barang[$key]->stok_awal = $stok_awal;
 
-                    $masuk = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                    $masuk = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
                     $barang[$key]->masuk = $masuk;
 
-                    $keluar = BarangKeluar::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                    $keluar = BarangKeluar::where('tgl_keluar', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
                     $barang[$key]->keluar = $keluar;
                 }
 
@@ -137,18 +154,19 @@ class PageController extends Controller
                 'to' => $to,
                 'data' => $result,
             ]);
-        }else {
+        } else {
             $from = date('Y-m-01');
             $to = date('Y-m-t');
             $barang = Barang::orderBy('nama')->get();
-            foreach($barang as $key=>$row){
-                $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+            foreach ($barang as $key => $row) {
+                // $stok_awal = BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $stok_awal = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->stok_awal = $stok_awal;
 
-                $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $masuk = BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->masuk = $masuk;
 
-                $keluar = BarangKeluar::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $keluar = BarangKeluar::whereBetween('tgl_keluar', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->keluar = $keluar;
 
                 $stok_akhir = $stok_awal + $masuk - $keluar;
@@ -170,24 +188,25 @@ class PageController extends Controller
         $from = $data['from'];
         $to = $data['to'];
         $barang = Barang::orderBy('nama')->get();
-        foreach($barang as $key=>$row){
-            if($from != $to){
-                $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+        foreach ($barang as $key => $row) {
+            if ($from != $to) {
+                // $stok_awal = BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $stok_awal = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->stok_awal = $stok_awal;
 
-                $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $masuk = BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->masuk = $masuk;
 
-                $keluar = BarangKeluar::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $keluar = BarangKeluar::whereBetween('tgl_keluar', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->keluar = $keluar;
-            }else{
-                $stok_awal = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+            } else {
+                $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
                 $barang[$key]->stok_awal = $stok_awal;
 
-                $masuk = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                $masuk = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->masuk = $masuk;
 
-                $keluar = BarangKeluar::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                $keluar = BarangKeluar::where('tgl_keluar', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->keluar = $keluar;
             }
 
@@ -209,24 +228,25 @@ class PageController extends Controller
         $from = $data['from'];
         $to = $data['to'];
         $barang = Barang::orderBy('nama')->get();
-        foreach($barang as $key=>$row){
-            if($from != $to){
-                $stok_awal = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+        foreach ($barang as $key => $row) {
+            if ($from != $to) {
+                // $stok_awal = BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->first() != null ? BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $stok_awal = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->stok_awal = $stok_awal;
 
-                $masuk = BarangMasuk::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $masuk = BarangMasuk::whereBetween('tgl_masuk', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->masuk = $masuk;
 
-                $keluar = BarangKeluar::whereBetween('created_at', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
+                $keluar = BarangKeluar::whereBetween('tgl_keluar', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->keluar = $keluar;
-            }else{
-                $stok_awal = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+            } else {
+                $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
                 $barang[$key]->stok_awal = $stok_awal;
 
-                $masuk = BarangMasuk::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                $masuk = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->masuk = $masuk;
 
-                $keluar = BarangKeluar::where('created_at', 'like', $from.'%')->where('barang_id', $row->id)->sum('jumlah');
+                $keluar = BarangKeluar::where('tgl_keluar', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->keluar = $keluar;
             }
 
@@ -235,7 +255,7 @@ class PageController extends Controller
         }
         $result = $barang;
         $pdf = Pdf::loadView('print.pdf', ['data' => $result, 'from' => $from, 'to' => $to])->setPaper('a4', 'portrait');;
-        return $pdf->download('laporan_stok_barang_' . date('d-m-Y', strtotime($from)) .'_' . date('d-m-Y', strtotime($to)) .'.pdf');
+        return $pdf->download('laporan_stok_barang_' . date('d-m-Y', strtotime($from)) . '_' . date('d-m-Y', strtotime($to)) . '.pdf');
     }
 
     public function master_kategori()
