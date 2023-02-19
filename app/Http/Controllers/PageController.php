@@ -134,7 +134,8 @@ class PageController extends Controller
                     $keluar = BarangKeluar::whereBetween('tgl_keluar', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                     $barang[$key]->keluar = $keluar;
                 } else {
-                    $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                    // $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                    $stok_awal = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah');
                     $barang[$key]->stok_awal = $stok_awal;
 
                     $masuk = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
@@ -200,7 +201,8 @@ class PageController extends Controller
                 $keluar = BarangKeluar::whereBetween('tgl_keluar', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->keluar = $keluar;
             } else {
-                $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                // $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $stok_awal = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->stok_awal = $stok_awal;
 
                 $masuk = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
@@ -240,7 +242,8 @@ class PageController extends Controller
                 $keluar = BarangKeluar::whereBetween('tgl_keluar', [$from, $to])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->keluar = $keluar;
             } else {
-                $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                // $stok_awal = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first() != null ? BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->first()->stok_awal : 0;
+                $stok_awal = BarangMasuk::whereBetween('tgl_masuk', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah') - BarangKeluar::whereBetween('tgl_keluar', ['2021-01-01', $from])->where('barang_id', $row->id)->sum('jumlah');
                 $barang[$key]->stok_awal = $stok_awal;
 
                 $masuk = BarangMasuk::where('tgl_masuk', 'like', $from . '%')->where('barang_id', $row->id)->sum('jumlah');
