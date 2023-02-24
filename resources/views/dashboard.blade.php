@@ -66,14 +66,29 @@
     @endif
 </div>
 
+<div class="grid grid-cols-2 gap-4">
+    <div class="card bg-base-100 shadow">
+        <div class="card-body">
+            <div class="card-title">Statistik Barang Masuk</div>
+            <div id="chart1"></div>
+        </div>
+    </div>
+    <div class="card bg-base-100 shadow">
+        <div class="card-body">
+            <div class="card-title">Statistik Barang Keluar</div>
+            <div id="chart2"></div>
+        </div>
+    </div>
+</div>
+
 <div class="py-4">
     <div class="py-4 flex justify-between items-center">
         <div class="text-xl font-bold">Stok Barang Hampir Habis</div>
         <!-- <input
-            type="text"
-            placeholder="Search"
-            class="input input-bordered shadow-xl w-full max-w-xs"
-        /> -->
+                    type="text"
+                    placeholder="Search"
+                    class="input input-bordered shadow-xl w-full max-w-xs"
+                /> -->
     </div>
     <div class="card bg-base-100 shadow-xl">
         <div class="overflow-auto max-h-[300px]">
@@ -105,4 +120,56 @@
         </div>
     </div>
 </div>
+@endsection @section('script')
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    var options = {
+        series: @JSON($stat_masuk['jumlah']),
+        chart: {
+            type: "pie",
+        },
+        labels: @JSON($stat_masuk['kategori']),
+        responsive: [
+            {
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200,
+                    },
+                    legend: {
+                        position: "bottom",
+                    },
+                },
+            },
+        ],
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart1"), options);
+    chart.render();
+</script>
+<script>
+    var options = {
+        series: @JSON($stat_keluar['jumlah']),
+        chart: {
+            type: "pie",
+        },
+        labels: @JSON($stat_keluar['kategori']),
+        responsive: [
+            {
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200,
+                    },
+                    legend: {
+                        position: "bottom",
+                    },
+                },
+            },
+        ],
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart2"), options);
+    chart.render();
+</script>
 @endsection

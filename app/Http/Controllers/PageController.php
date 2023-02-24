@@ -23,12 +23,40 @@ class PageController extends Controller
 
     public function dashboard()
     {
+        $kategori = [];
+        $barang_masuk = BarangMasuk::all();
+        foreach ($barang_masuk as $row) {
+            array_push($kategori, $row->barang->kategori->nama);
+        }
+        $kategori2 = [];
+        $barang_keluar = BarangKeluar::all();
+        foreach ($barang_keluar as $row) {
+            array_push($kategori2, $row->barang->kategori->nama);
+        }
+        $barang_masuk = array_count_values($kategori);
+        $barang_keluar = array_count_values($kategori2);
+        $stat_masuk['kategori'] = [];
+        $stat_masuk['jumlah'] = [];
+        foreach ($barang_masuk as $key => $row) {
+            array_push($stat_masuk['kategori'], $key);
+            array_push($stat_masuk['jumlah'], $row);
+        }
+        // array_flip($stat_masuk['jumlah']);
+
+        $stat_keluar['kategori'] = [];
+        $stat_keluar['jumlah'] = [];
+        foreach ($barang_keluar as $key => $row) {
+            array_push($stat_keluar['kategori'], $key);
+            array_push($stat_keluar['jumlah'], $row);
+        }
         return view('dashboard', [
             'title' => 'Dashboard',
             'data_barang' => Barang::all()->count(),
             'data_masuk' => BarangMasuk::all()->count(),
             'data_keluar' => BarangKeluar::all()->count(),
             'stok_habis' => Barang::where('stok', '<', 12)->get(),
+            'stat_masuk' => $stat_masuk,
+            'stat_keluar' => $stat_keluar,
         ]);
     }
 
